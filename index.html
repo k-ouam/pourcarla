@@ -134,10 +134,11 @@
             pointer-events: none; /* Pour ne pas gêner si on clique dessus */
         }
 
-        /* Animation pour faire clignoter en fondu les petits chiens */
+        /* Nouveau fondu : reste visible plus longtemps à l'écran */
         @keyframes fadeDog {
             0% { opacity: 0; transform: scale(0.9); }
-            50% { opacity: 0.6; transform: scale(1.1); }
+            20% { opacity: 0.75; transform: scale(1.05); }
+            80% { opacity: 0.75; transform: scale(1.05); }
             100% { opacity: 0; transform: scale(0.9); }
         }
     </style>
@@ -192,10 +193,8 @@
                 createHeart();
             }
 
-            // Ajoute plein de petits chiens qui clignotent sur les côtés !
-            for(let i = 0; i < 16; i++) { // 16 petits chiens
-                createFloatingDog();
-            }
+            // Générer les chiens sans qu'ils se chevauchent
+            spawnOrganizedDogs();
         });
 
         // Fonction pour les petits coeurs
@@ -212,27 +211,41 @@
             }, 5000);
         }
 
-        // Fonction pour créer les petits chiens sur les côtés
-        function createFloatingDog() {
+        // Fonction pour répartir les chiens sur une grille invisible
+        function spawnOrganizedDogs() {
+            // 8 hauteurs différentes pour ne pas se toucher (en pourcentage d'écran)
+            const hauteurs = [5, 17, 29, 41, 53, 65, 77, 89]; 
+            
+            // Placer les 8 chiens à gauche
+            hauteurs.forEach(y => creerChienUnique(true, y));
+            // Placer les 8 chiens à droite
+            hauteurs.forEach(y => creerChienUnique(false, y));
+        }
+
+        // Fonction pour créer UN chien à une position précise
+        function creerChienUnique(isLeft, baseY) {
             const dog = document.createElement('img');
-            dog.src = 'x1080.jpg'; // L'image du chien
+            dog.src = 'x1080.jpg';
             dog.classList.add('floating-dog');
 
-            // Taille aléatoire du petit chien (entre 50px et 120px)
-            const size = Math.floor(Math.random() * 70) + 50;
+            // Taille fixe pour éviter les débordements (environ 80px)
+            const size = Math.floor(Math.random() * 20) + 70; 
             dog.style.width = size + 'px';
 
-            // Choisir un côté : 50% de chance d'être à gauche (0 à 20% de l'écran) ou à droite (80 à 95% de l'écran)
-            const isLeft = Math.random() > 0.5;
-            const randomX = isLeft ? Math.random() * 20 : 80 + Math.random() * 15;
-            const randomY = Math.random() * 85; // De haut en bas (0 à 85% de la hauteur)
+            // Petit décalage aléatoire (+ ou - 3%) pour faire moins "robotique"
+            const jitterX = (Math.random() - 0.5) * 6;
+            const jitterY = (Math.random() - 0.5) * 6;
 
-            dog.style.left = randomX + 'vw';
-            dog.style.top = randomY + 'vh';
+            // Placement (10% de l'écran pour la gauche, 85% pour la droite)
+            const baseLeft = isLeft ? 10 : 85; 
 
-            // Désynchroniser les apparitions pour que ça fasse naturel
-            dog.style.animationDuration = (2 + Math.random() * 4) + 's'; // Disparait/apparait toutes les 2 à 6 secondes
-            dog.style.animationDelay = Math.random() * 3 + 's'; // Commence à des moments différents
+            dog.style.left = `calc(${baseLeft + jitterX}vw - ${size / 2}px)`;
+            dog.style.top = `calc(${baseY + jitterY}vh - ${size / 2}px)`;
+
+            // Animation beaucoup plus lente : dure entre 6 et 10 secondes
+            dog.style.animationDuration = (6 + Math.random() * 4) + 's'; 
+            // Commence à des moments différents (délai de 0 à 4 secondes)
+            dog.style.animationDelay = (Math.random() * 4) + 's'; 
 
             document.body.appendChild(dog);
         }
