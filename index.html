@@ -181,7 +181,7 @@
         btnOui.addEventListener('click', () => {
             // LANCE LA MUSIQUE À LA 32ÈME SECONDE
             const audio = new Audio('musique.mp3');
-            audio.currentTime = 32; 
+            audio.currentTime = 66; 
             // On gère l'erreur au cas où son navigateur bloque l'autoplay, bien que le clic autorise normalement le son.
             audio.play().catch(err => console.log("Musique bloquée par le navigateur, mais l'animation continue !"));
 
