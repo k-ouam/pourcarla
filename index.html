@@ -27,6 +27,17 @@
             box-shadow: 0 10px 30px rgba(255, 105, 135, 0.3);
             text-align: center;
             transition: all 0.5s ease;
+            max-width: 500px; /* Limite la largeur pour que ça reste joli sur grand écran */
+        }
+
+        /* Style ajouté pour les images */
+        .img-custom {
+            max-width: 100%;
+            height: auto;
+            max-height: 250px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         h1 {
@@ -71,6 +82,7 @@
         #btn-non {
             background-color: #a3a3a3;
             position: relative; /* Nécessaire pour pouvoir le déplacer ensuite */
+            z-index: 10;
         }
 
         /* Style pour le message caché au début */
@@ -78,15 +90,19 @@
             display: none;
             text-align: center;
             background-color: rgba(255, 255, 255, 0.9);
-            padding: 50px;
+            padding: 40px;
             border-radius: 30px;
             box-shadow: 0 10px 30px rgba(255, 105, 135, 0.4);
+            max-width: 600px;
+            z-index: 5;
         }
 
         #message-success h2 {
             font-family: 'Fredoka One', cursive;
             color: #ff4b72;
-            font-size: 2em;
+            font-size: 1.8em;
+            line-height: 1.4;
+            margin-top: 20px;
         }
 
         .floating-hearts {
@@ -94,6 +110,7 @@
             font-size: 2rem;
             animation: float 4s ease-in infinite;
             opacity: 0.7;
+            z-index: 1; /* Pour que les coeurs passent derrière le texte */
         }
 
         @keyframes float {
@@ -106,6 +123,7 @@
 
     <div class="container" id="question-box">
         <h1>Coucou Carla 🌸</h1>
+        <img src="x1080.jpg" alt="Chien souriant" class="img-custom">
         <p>Veux-tu bien être ma copine ?</p>
         <div class="buttons">
             <button id="btn-oui">Oui ! 🥰</button>
@@ -114,7 +132,8 @@
     </div>
 
     <div id="message-success">
-        <h2>Bon choix, tu ne le regretteras pas :) <br><br> Go faire des gosses maintenant 👶💕</h2>
+        <img src="MV5BMjE1NDE3ODA0MV5BMl5BanBnXkFtZTcwODQ5NTgwNQ@@._V1_FMjpg_UX1000_.jpg" alt="Bruno Mars" class="img-custom" style="max-height: 300px;">
+        <h2>Hello Carla, c'est Bruno Mars, franchement tu as fait un bête de choix, c'est un gros bg, bien musclé, un peu macho mais ça va : ), surtout qu'il est très sympa</h2>
     </div>
 
     <script>
