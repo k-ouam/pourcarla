@@ -156,6 +156,11 @@
 
         // Fonction pour quand elle clique sur "Oui"
         btnOui.addEventListener('click', () => {
+            // LANCE LA MUSIQUE À LA 32ÈME SECONDE
+            const audio = new Audio('musique.mp3');
+            audio.currentTime = 32; // Définit le début à 32 secondes
+            audio.play();
+
             // Cache la question
             questionBox.style.display = 'none';
             // Affiche le message de victoire
