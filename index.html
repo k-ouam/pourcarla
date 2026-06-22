@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour Carla 💖</title>
+    <style>
+        /* Importation d'une police mignonne */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden; /* Empêche l'écran de défiler quand le bouton bouge */
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 40px 60px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(255, 105, 135, 0.3);
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #ff4b72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.5em;
+            color: #ff758c;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        button {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2em;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        #btn-oui {
+            background-color: #ff4b72;
+        }
+
+        #btn-non {
+            background-color: #a3a3a3;
+            position: relative; /* Nécessaire pour pouvoir le déplacer ensuite */
+        }
+
+        /* Style pour le message caché au début */
+        #message-success {
+            display: none;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(255, 105, 135, 0.4);
+        }
+
+        #message-success h2 {
+            font-family: 'Fredoka One', cursive;
+            color: #ff4b72;
+            font-size: 2em;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 4s ease-in infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="question-box">
+        <h1>Coucou Carla 🌸</h1>
+        <p>Veux-tu bien être ma copine ?</p>
+        <div class="buttons">
+            <button id="btn-oui">Oui ! 🥰</button>
+            <button id="btn-non">Non 💔</button>
+        </div>
+    </div>
+
+    <div id="message-success">
+        <h2>Bon choix, tu ne le regretteras pas :) <br><br> Go faire des gosses maintenant 👶💕</h2>
+    </div>
+
+    <script>
+        const btnOui = document.getElementById('btn-oui');
+        const btnNon = document.getElementById('btn-non');
+        const questionBox = document.getElementById('question-box');
+        const messageSuccess = document.getElementById('message-success');
+
+        // Fonction pour faire fuir le bouton "Non"
+        btnNon.addEventListener('mouseover', () => {
+            // Calcule une position aléatoire sur l'écran
+            const x = Math.random() * (window.innerWidth - btnNon.clientWidth);
+            const y = Math.random() * (window.innerHeight - btnNon.clientHeight);
+            
+            // Applique la nouvelle position
+            btnNon.style.position = 'absolute';
+            btnNon.style.left = `${x}px`;
+            btnNon.style.top = `${y}px`;
+        });
+
+        // Fonction pour quand elle clique sur "Oui"
+        btnOui.addEventListener('click', () => {
+            // Cache la question
+            questionBox.style.display = 'none';
+            // Affiche le message de victoire
+            messageSuccess.style.display = 'block';
+
+            // Ajoute quelques petits coeurs qui volent pour l'effet girly !
+            for(let i = 0; i < 20; i++) {
+                createHeart();
+            }
+        });
+
+        // Fonction pour créer des petits coeurs qui volent à la fin
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💖';
+            heart.classList.add('floating-hearts');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            
+            // Supprime le coeur après l'animation pour ne pas surcharger la page
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
