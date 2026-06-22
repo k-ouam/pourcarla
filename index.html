@@ -165,12 +165,14 @@
         const questionBox = document.getElementById('question-box');
         const messageSuccess = document.getElementById('message-success');
 
-        // Fonction pour faire fuir le bouton "Non"
+        // Fonction pour faire fuir le bouton "Non" indéfiniment
         btnNon.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - btnNon.clientWidth);
-            const y = Math.random() * (window.innerHeight - btnNon.clientHeight);
+            // Utiliser offsetWidth/Height garantit que le bouton ne sortira pas de l'écran
+            const x = Math.random() * (window.innerWidth - btnNon.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNon.offsetHeight);
             
-            btnNon.style.position = 'absolute';
+            // On passe en "fixed" pour qu'il se déplace par rapport à la fenêtre, et non par rapport à la boîte !
+            btnNon.style.position = 'fixed';
             btnNon.style.left = `${x}px`;
             btnNon.style.top = `${y}px`;
         });
@@ -180,10 +182,14 @@
             // LANCE LA MUSIQUE À LA 32ÈME SECONDE
             const audio = new Audio('musique.mp3');
             audio.currentTime = 32; 
-            audio.play();
+            // On gère l'erreur au cas où son navigateur bloque l'autoplay, bien que le clic autorise normalement le son.
+            audio.play().catch(err => console.log("Musique bloquée par le navigateur, mais l'animation continue !"));
 
             // Cache la question
             questionBox.style.display = 'none';
+            // Cache le bouton Non s'il se balade encore à l'écran
+            btnNon.style.display = 'none';
+            
             // Affiche le message de victoire
             messageSuccess.style.display = 'block';
 
